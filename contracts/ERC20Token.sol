@@ -86,7 +86,6 @@ contract ERC20Token is ERC20 {
 
     function burn(uint112 amount) public {
         lusdBurned[block.number/100] = lusdBurned[block.number/100] + amount;
-        _burn(msg.sender, amount);
         IERC20 token = IERC20(lowbAddress);
         uint lowbAmount;
         if (msg.sender == owner) {
@@ -95,6 +94,7 @@ contract ERC20Token is ERC20 {
         else {
             lowbAmount = getLowbReturnAmount(amount) * 9970 / 10000;
         }
+        _burn(msg.sender, amount);
         token.transfer(msg.sender, lowbAmount);
         emit Burn(msg.sender, amount);
     }
