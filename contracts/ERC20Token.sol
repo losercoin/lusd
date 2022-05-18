@@ -74,7 +74,10 @@ contract ERC20Token is ERC20 {
         IERC20 token = IERC20(lowbAddress);
         uint lowbAmount;
         if (msg.sender == owner) {
-            lowbAmount = getLowbAmountImm(amount);
+            if (getLowbAmountImm(amount) < getLowbAmountRef(amount))
+                lowbAmount = getLowbAmountImm(amount);
+            else
+                lowbAmount = getLowbAmountRef(amount);
         }
         else {
             lowbAmount = getLowbNeedToMint(amount) * 10030 / 10000;
@@ -89,7 +92,10 @@ contract ERC20Token is ERC20 {
         IERC20 token = IERC20(lowbAddress);
         uint lowbAmount;
         if (msg.sender == owner) {
-            lowbAmount = getLowbAmountImm(amount);
+            if (getLowbAmountImm(amount) > getLowbAmountRef(amount))
+                lowbAmount = getLowbAmountImm(amount);
+            else
+                lowbAmount = getLowbAmountRef(amount);
         }
         else {
             lowbAmount = getLowbReturnAmount(amount) * 9970 / 10000;
