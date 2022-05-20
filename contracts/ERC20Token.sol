@@ -12,6 +12,7 @@ contract ERC20Token is ERC20 {
     address public lowbAddress;
     address public owner;
     uint public magicNumber = 100;
+    uint public maxSupply = 8000e18;
 
     mapping (uint => uint) public lusdMinted;
     mapping (uint => uint) public lusdBurned;
@@ -84,6 +85,7 @@ contract ERC20Token is ERC20 {
         }
         require(token.transferFrom(msg.sender, address(this), lowbAmount), "Lowb transfer failed");
         _mint(msg.sender, amount);
+        require (totalSupply() <= maxSupply, "exceed the limit");
         emit Mint(msg.sender, amount);
     }
 
@@ -108,5 +110,10 @@ contract ERC20Token is ERC20 {
     function setMagicNumber(uint num) public {
         require(msg.sender == owner, "no access");
         magicNumber = num;
+    }
+
+    function setMaxSupply(uint num) public {
+        require(msg.sender == owner, "no access");
+        maxSupply = num;
     }
 }
