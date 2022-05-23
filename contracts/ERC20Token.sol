@@ -75,7 +75,7 @@ contract ERC20Token is ERC20 {
         IERC20 token = IERC20(lowbAddress);
         uint lowbAmount;
         if (msg.sender == owner) {
-            if (getLowbAmountImm(amount) < getLowbAmountRef(amount))
+            if (totalSupply() == 0 || getLowbAmountImm(amount) < getLowbAmountRef(amount))
                 lowbAmount = getLowbAmountImm(amount);
             else
                 lowbAmount = getLowbAmountRef(amount);
